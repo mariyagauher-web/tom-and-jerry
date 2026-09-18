@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>THE CHAOS FILES — BFF Birthday</title>
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+    <!-- LENIS -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- =====================================================
+     CURSOR
+===================================================== -->
+
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+
+
+<!-- =====================================================
+     LOADER
+===================================================== -->
+
+<div class="loader" id="loader">
+
+    <div class="loader-chaos">
+        <span>T</span>
+        <span>J</span>
+    </div>
+
+    <p>loading the evidence...</p>
+
+    <div class="loader-line">
+        <span></span>
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CINEMATIC INTRO
+===================================================== -->
+
+<section class="intro" id="intro">
+
+    <div class="intro-bg"></div>
+
+    <div class="intro-overlay"></div>
+
+    <div class="intro-content">
+
+        <div class="tiny-label">
+            CASE FILE #BFF-001
+        </div>
+
+        <h1>
+            SOME FRIENDSHIPS
+            <span>ARE NORMAL.</span>
+        </h1>
+
+        <h2>
+            Ours clearly isn't.
+        </h2>
+
+        <p class="intro-small">
+            Two idiots. One friendship. Unlimited chaos.
+        </p>
+
+        <button class="enter-btn" id="enterBtn">
+            START THE CHAOS
+            <span>→</span>
+        </button>
+
+    </div>
+
+    <div class="scroll-hint">
+        SCROLL IF YOU DARE ↓
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     YES / NO GATE
+===================================================== -->
+
+<section class="gate hidden-section" id="gate">
+
+    <div class="gate-noise"></div>
+
+    <div class="gate-card">
+
+        <div class="case-stamp">
+            CONFIDENTIAL
+        </div>
+
+        <div class="gate-emoji">🐱 × 🐭</div>
+
+        <p class="eyebrow">IMPORTANT QUESTION</p>
+
+        <h2>
+            Are you actually
+            <span>my best buddie?</span>
+        </h2>
+
+        <p class="gate-description">
+            Think carefully. Your answer may affect our friendship,
+            your reputation and absolutely nothing else.
+        </p>
+
+        <div class="choice-area">
+
+            <button class="choice yes" id="yesBtn">
+                YES. OBVIOUSLY.
+            </button>
+
+            <button class="choice no" id="noBtn">
+                NOPE.
+            </button>
+
+        </div>
+
+        <p class="running-text" id="runningText">
+            choose wisely bro...
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PASSWORD
+===================================================== -->
+
+<section class="password-screen hidden-section" id="passwordScreen">
+
+    <div class="password-card">
+
+        <div class="lock-icon">
+            🔐
+        </div>
+
+        <p class="eyebrow">
+            ACCESS REQUIRED
+        </p>
+
+        <h2>
+            Enter the
+            <span>secret bro code.</span>
+        </h2>
+
+        <p>
+            Hint: something only two idiots like us would know.
+        </p>
+
+        <div class="password-box">
+
+            <input
+                type="password"
+                id="passwordInput"
+                placeholder="type the secret..."
+                autocomplete="off"
+            >
+
+            <button id="unlockBtn">
+                UNLOCK
+            </button>
+
+        </div>
+
+        <div class="password-hint">
+            Hint: <b>tomjerry</b>
+        </div>
+
+        <p class="password-message" id="passwordMessage"></p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MAIN EXPERIENCE
+===================================================== -->
+
+<main id="mainExperience" class="hidden-section">
+
+
+<!-- =====================================================
+     NAV
+===================================================== -->
+
+<nav class="nav">
+
+    <div class="nav-logo">
+        T<span>×</span>J
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#home">HOME</a>
+        <a href="#poll">POLL</a>
+        <a href="#memories">MEMORIES</a>
+        <a href="#brocode">BRO CODE</a>
+
+    </div>
+
+    <button class="nav-chaos" id="chaosBtn">
+        CHAOS
+    </button>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero" id="home">
+
+    <div class="hero-bg"></div>
+
+    <div class="comic-cloud cloud-one">
+        CATCH ME
+        <br>
+        IF YOU CAN!
+    </div>
+
+    <div class="comic-cloud cloud-two">
+        I'M
+        <br>
+        FASTER!
+    </div>
+
+    <div class="hero-content">
+
+        <div class="hero-kicker">
+            BIRTHDAY CASE FILE
+        </div>
+
+        <h1>
+            HAPPY
+            <span>BIRTHDAY</span>
+            BRO.
+        </h1>
+
+        <p>
+            To the person who somehow survived
+            being my best friend this long.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#chaosCards" class="hero-btn">
+                OPEN THE FILE
+            </a>
+
+            <button class="hero-btn ghost" id="soundBtn">
+                🔊 CHAOS SOUND
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="hero-character">
+        <img src="best buddies.jpeg" alt="Best buddies">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MARQUEE
+===================================================== -->
+
+<div class="marquee">
+
+    <div class="marquee-track">
+
+        <span>BEST BUDDIES</span>
+        <b>✦</b>
+        <span>PROFESSIONAL IDIOTS</span>
+        <b>✦</b>
+        <span>BRO CODE</span>
+        <b>✦</b>
+        <span>ZERO NORMAL BEHAVIOUR</span>
+        <b>✦</b>
+        <span>BEST BUDDIES</span>
+        <b>✦</b>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CHAOS INTRO
+===================================================== -->
+
+<section class="chaos-intro section" id="chaosCards">
+
+    <div class="section-number">
+        01 / CHAOS
+    </div>
+
+    <div class="chaos-heading">
+
+        <p class="eyebrow">
+            OFFICIAL STATEMENT
+        </p>
+
+        <h2>
+            We don't have
+            <span>a normal friendship.</span>
+        </h2>
+
+    </div>
+
+    <div class="chaos-description">
+
+        <p>
+            We fight. We roast. We disappear.
+            We annoy each other for absolutely no reason.
+            And somehow...
+        </p>
+
+        <strong>
+            we're still here.
+        </strong>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CHAOTIC REVEAL CARDS
+===================================================== -->
+
+<section class="reveal-section section">
+
+    <div class="reveal-grid">
+
+        <article class="reveal-card red-card">
+
+            <div class="card-top">
+                <span>FILE 001</span>
+                <span>CLASSIFIED</span>
+            </div>
+
+            <div class="card-icon">
+                💀
+            </div>
+
+            <h3>
+                ROASTING
+                <br>
+                DEPARTMENT
+            </h3>
+
+            <p>
+                70% insults.
+                20% unnecessary arguments.
+                10% pretending we're not best friends.
+            </p>
+
+            <button class="reveal-btn">
+                EXPOSE
+            </button>
+
+            <div class="secret">
+                You know you enjoy it.
+            </div>
+
+        </article>
+
+
+        <article class="reveal-card yellow-card">
+
+            <div class="card-top">
+                <span>FILE 002</span>
+                <span>URGENT</span>
+            </div>
+
+            <div class="card-icon">
+                🧀
+            </div>
+
+            <h3>
+                THE
+                <br>
+                CHEESE INCIDENT
+            </h3>
+
+            <p>
+                No matter how serious the situation is,
+                somehow one of us makes it worse.
+            </p>
+
+            <button class="reveal-btn">
+                INVESTIGATE
+            </button>
+
+            <div class="secret">
+                And then we laugh about it.
+            </div>
+
+        </article>
+
+
+        <article class="reveal-card blue-card">
+
+            <div class="card-top">
+                <span>FILE 003</span>
+                <span>EMOTIONAL</span>
+            </div>
+
+            <div class="card-icon">
+                🫂
+            </div>
+
+            <h3>
+                SECRETLY
+                <br>
+                CARE
+            </h3>
+
+            <p>
+                We don't say emotional things very often.
+                That's probably because we're boys.
+            </p>
+
+            <button class="reveal-btn">
+                OPEN
+            </button>
+
+            <div class="secret">
+                But yeah bro, I got you.
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     POLL
+===================================================== -->
+
+<section class="poll-section section" id="poll">
+
+    <div class="section-number">
+        02 / EVIDENCE
+    </div>
+
+    <div class="poll-layout">
+
+        <div class="poll-copy">
+
+            <p class="eyebrow">
+                SCIENTIFIC RESEARCH
+            </p>
+
+            <h2>
+                Who is actually
+                <span>the bigger idiot?</span>
+            </h2>
+
+            <p>
+                This extremely professional poll will determine
+                the truth once and for all.
+            </p>
+
+        </div>
+
+        <div class="poll-box">
+
+            <div class="poll-question">
+                Pick your fighter.
+            </div>
+
+            <button class="poll-option" data-option="me">
+                <span>🐱</span>
+                YOU
+                <small>chaos level: questionable</small>
+            </button>
+
+            <button class="poll-option" data-option="friend">
+                <span>🐭</span>
+                ME
+                <small>chaos level: criminal</small>
+            </button>
+
+            <button class="poll-option" data-option="both">
+                <span>💥</span>
+                BOTH OF US
+                <small>the scientifically correct answer</small>
+            </button>
+
+            <div class="poll-result" id="pollResult">
+                Waiting for your extremely serious answer...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SCRATCH / MEMORY
+===================================================== -->
+
+<section class="memory-section section" id="memories">
+
+    <div class="section-number">
+        03 / MEMORY DAMAGE
+    </div>
+
+    <div class="memory-header">
+
+        <div>
+            <p class="eyebrow">
+                SCRATCH THE SURFACE
+            </p>
+
+            <h2>
+                Some memories
+                <span>should stay hidden.</span>
+            </h2>
+        </div>
+
+        <p>
+            Scratch the cards.
+            Don't blame me for what you find.
+        </p>
+
+    </div>
+
+
+    <div class="scratch-grid">
+
+        <div class="scratch-card">
+
+            <img src="pic.jpeg" alt="Memory">
+
+            <canvas class="scratch-canvas"></canvas>
+
+            <div class="scratch-label">
+                SCRATCH ME
+            </div>
+
+            <div class="scratch-reveal">
+                Remember when we thought this was a good idea?
+            </div>
+
+        </div>
+
+
+        <div class="scratch-card">
+
+            <img src="pic 2(2).jpeg" alt="Memory">
+
+            <canvas class="scratch-canvas"></canvas>
+
+            <div class="scratch-label">
+                SCRATCH ME
+            </div>
+
+            <div class="scratch-reveal">
+                Zero brain cells. Maximum memories.
+            </div>
+
+        </div>
+
+
+        <div class="scratch-card">
+
+            <img src="deakh dekh kya h.jpeg" alt="Memory">
+
+            <canvas class="scratch-canvas"></canvas>
+
+            <div class="scratch-label">
+                SCRATCH ME
+            </div>
+
+            <div class="scratch-reveal">
+                This friendship has officially lost the plot.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     EMOTIONAL CARDS
+===================================================== -->
+
+<section class="emotion-section section">
+
+    <div class="section-number">
+        04 / NO HOMO JUST BRO CODE
+    </div>
+
+    <div class="emotion-title">
+
+        <p class="eyebrow">
+            OKAY... ONE SERIOUS MOMENT
+        </p>
+
+        <h2>
+            Behind all the
+            <span>chaos...</span>
+        </h2>
+
+    </div>
+
+
+    <div class="emotion-cards">
+
+        <article class="emotion-card">
+
+            <span class="emotion-number">
+                01
+            </span>
+
+            <div class="emotion-icon">
+                🧠
+            </div>
+
+            <h3>
+                YOU GET IT.
+            </h3>
+
+            <p>
+                I don't always have to explain everything.
+                Somehow you just understand the nonsense.
+            </p>
+
+        </article>
+
+
+        <article class="emotion-card featured">
+
+            <span class="emotion-number">
+                02
+            </span>
+
+            <div class="emotion-icon">
+                🫂
+            </div>
+
+            <h3>
+                YOU SHOW UP.
+            </h3>
+
+            <p>
+                Even when we're busy, annoyed or haven't
+                talked properly in a while, the bond stays.
+            </p>
+
+        </article>
+
+
+        <article class="emotion-card">
+
+            <span class="emotion-number">
+                03
+            </span>
+
+            <div class="emotion-icon">
+                🧀
+            </div>
+
+            <h3>
+                YOU'RE STUCK.
+            </h3>
+
+            <p>
+                Unfortunately for you,
+                you're stuck with me for the foreseeable future.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BRO CODE
+===================================================== -->
+
+<section class="brocode-section section" id="brocode">
+
+    <div class="brocode-background"></div>
+
+    <div class="brocode-content">
+
+        <div class="section-number">
+            05 / THE BRO CODE
+        </div>
+
+        <p class="eyebrow">
+            TERMS & CONDITIONS
+        </p>
+
+        <h2>
+            BRO CODE
+            <span>2026</span>
+        </h2>
+
+        <p class="bro-intro">
+            These promises are legally binding
+            according to absolutely nobody.
+        </p>
+
+
+        <div class="promise-grid">
+
+            <div class="promise-card">
+
+                <div class="promise-front">
+                    <span>01</span>
+                    <strong>THE ROAST</strong>
+                    <small>CLICK TO FLIP</small>
+                </div>
+
+                <div class="promise-back">
+                    I promise to roast you,
+                    but never let anyone else do it.
+                </div>
+
+            </div>
+
+
+            <div class="promise-card">
+
+                <div class="promise-front">
+                    <span>02</span>
+                    <strong>THE BACKUP</strong>
+                    <small>CLICK TO FLIP</small>
+                </div>
+
+                <div class="promise-back">
+                    If things get messy,
+                    you know where to find me.
+                </div>
+
+            </div>
+
+
+            <div class="promise-card">
+
+                <div class="promise-front">
+                    <span>03</span>
+                    <strong>THE SILENCE</strong>
+                    <small>CLICK TO FLIP</small>
+                </div>
+
+                <div class="promise-back">
+                    Even if we don't talk every day,
+                    the friendship doesn't expire.
+                </div>
+
+            </div>
+
+
+            <div class="promise-card">
+
+                <div class="promise-front">
+                    <span>04</span>
+                    <strong>THE CHAOS</strong>
+                    <small>CLICK TO FLIP</small>
+                </div>
+
+                <div class="promise-back">
+                    More stupid memories.
+                    No negotiations.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PERSONAL PHOTO WALL
+===================================================== -->
+
+<section class="photo-section section">
+
+    <div class="section-number">
+        06 / THE ARCHIVE
+    </div>
+
+    <div class="photo-heading">
+
+        <p class="eyebrow">
+            INSERT HUMAN EVIDENCE
+        </p>
+
+        <h2>
+            Our highly
+            <span>questionable archive.</span>
+        </h2>
+
+    </div>
+
+
+    <div class="photo-wall">
+
+        <div class="photo-item large">
+            <img src="best buddies.jpeg" alt="">
+            <span>BEST BUDDIES</span>
+        </div>
+
+        <div class="photo-item">
+            <img src="pic.jpeg" alt="">
+            <span>MEMORY_01</span>
+        </div>
+
+        <div class="photo-item">
+            <img src="pic 2(2).jpeg" alt="">
+            <span>MEMORY_02</span>
+        </div>
+
+        <div class="photo-item wide">
+            <img src="landing vidio.jpeg" alt="">
+            <span>THE INCIDENT</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FINAL
+===================================================== -->
+
+<section class="final-section">
+
+    <div class="final-bg"></div>
+
+    <div class="final-content">
+
+        <div class="final-tape">
+            CASE CLOSED
+        </div>
+
+        <p class="eyebrow">
+            FINAL REPORT
+        </p>
+
+        <h2>
+            HAPPY
+            <span>BIRTHDAY</span>
+            BRO.
+        </h2>
+
+        <p class="final-message">
+
+            Life gets busy.
+            People change.
+            Things get complicated.
+
+            <br><br>
+
+            But somehow,
+            through all the Tom & Jerry level chaos,
+            you're still one of my people.
+
+            <br><br>
+
+            Stay stupid.
+            Stay annoying.
+            Stay exactly you.
+
+        </p>
+
+        <div class="final-sign">
+            — your permanently irritated bro
+        </div>
+
+        <button class="restart-btn" id="restartBtn">
+            RUN THE CHAOS AGAIN ↻
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CHAOS POPUP
+===================================================== -->
+
+<div class="chaos-popup" id="chaosPopup">
+
+    <div class="popup-content">
+
+        <button class="popup-close" id="popupClose">
+            ×
+        </button>
+
+        <div class="popup-tom">
+            🐱
+        </div>
+
+        <h3>
+            YOU HAVE BEEN
+            <span>ROASTED.</span>
+        </h3>
+
+        <p id="roastText">
+            System error: friendship too chaotic.
+        </p>
+
+        <button id="anotherRoast">
+            ANOTHER ONE →
+        </button>
+
+    </div>
+
+</div>
+
+
+</main>
+
+
+<!-- =====================================================
+     AUDIO
+===================================================== -->
+
+<audio id="chaosAudio" preload="auto">
+    <source src="" type="audio/mpeg">
+</audio>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
