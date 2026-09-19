@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7efe0">
+<title>Happy Birthday Bro — Tom & Jerry</title>
+
+<!-- GSAP is used only for animation; the page remains a single HTML file. -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Bangers&family=DM+Sans:wght@500;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream:#f7efe0;
+  --paper:#fffdf8;
+  --ink:#171717;
+  --muted:#756f67;
+  --yellow:#ffd447;
+  --red:#e84d50;
+  --blue:#3d8ed0;
+  --orange:#f59b3d;
+  --green:#6fa06b;
+  --line:rgba(23,23,23,.14);
+  --shadow:0 22px 55px rgba(23,23,23,.12);
+  --display:"Bangers", "Baloo 2", sans-serif;
+  --round:"Baloo 2", "DM Sans", sans-serif;
+  --body:"DM Sans", sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--body);
+}
+button,input{font:inherit}
+button{border:0;cursor:pointer}
+img{display:block;max-width:100%}
+::selection{background:var(--yellow);color:#111}
+
+.page-noise{
+  position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+#progress{
+  position:fixed;top:0;left:0;width:0;height:4px;z-index:10000;
+  background:linear-gradient(90deg,var(--red),var(--yellow),var(--blue));
+}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:9990;overflow:hidden}
+.confetti-piece{
+  position:absolute;top:-24px;width:9px;height:15px;border-radius:2px;
+  animation:fall var(--dur) linear forwards;
+}
+@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(760deg);opacity:0}}
+
+a{color:inherit}
+.container{width:min(1160px,calc(100% - 40px));margin:auto}
+.section{
+  position:relative;
+  padding:clamp(78px,10vw,135px) 0;
+  overflow:hidden;
+}
+.section-head{
+  width:min(760px,100%);
+  margin-bottom:48px;
+}
+.kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  font:800 12px/1 var(--body);
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;
+}
+.kicker::before{content:"";width:30px;height:4px;background:var(--red);display:block}
+.section-head h2{
+  font:400 clamp(58px,9vw,112px)/.82 var(--display);
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.section-head h2 span{color:var(--red)}
+.section-head p{
+  max-width:620px;margin-top:22px;color:#5e5a54;
+  font:600 17px/1.65 var(--round);
+}
+
+/* opening */
+.opening{
+  min-height:100svh;position:relative;display:grid;place-items:center;
+  overflow:hidden;background:#161616;color:#fff;
+}
+.opening-bg{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.35)),
+    url("backround.jpeg") center/cover no-repeat;
+  transform:scale(1.06);
+}
+.opening-bg::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 65% 42%,transparent 0 18%,rgba(0,0,0,.45) 72%);
+}
+.opening-top{
+  position:absolute;top:24px;left:24px;right:24px;
+  display:flex;justify-content:space-between;gap:20px;
+  font:700 10px/1 var(--body);letter-spacing:2px;color:rgba(255,255,255,.68);
+}
+.opening-content{
+  position:relative;z-index:3;width:min(790px,calc(100% - 40px));text-align:center;
+}
+.birthday-pill{
+  display:inline-block;padding:10px 14px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.07);backdrop-filter:blur(10px);
+  font:800 10px/1 var(--body);letter-spacing:2px;text-transform:uppercase;
+}
+.opening h1{
+  margin:28px 0 22px;
+  font:400 clamp(78px,14vw,180px)/.73 var(--display);
+  text-transform:uppercase;letter-spacing:1px;
+}
+.opening h1 span{
+  display:block;color:var(--yellow);
+  text-shadow:7px 7px 0 rgba(232,77,80,.9);
+}
+.opening-copy{
+  width:min(560px,100%);margin:auto;
+  font:600 clamp(16px,2vw,20px)/1.55 var(--round);
+  color:rgba(255,255,255,.83);
+}
+.primary-btn{
+  margin-top:28px;display:inline-flex;align-items:center;gap:16px;
+  padding:15px 20px;background:var(--yellow);color:#111;
+  font:800 12px/1 var(--body);letter-spacing:1px;text-transform:uppercase;
+  box-shadow:7px 7px 0 var(--red);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.primary-btn:hover{transform:translate(-3px,-3px);box-shadow:10px 10px 0 var(--red)}
+.edge-cutout{
+  position:absolute;z-index:4;pointer-events:none;
+  filter:drop-shadow(0 18px 20px rgba(0,0,0,.28));
+}
+.edge-cutout img{width:100%;height:auto;object-fit:contain}
+.edge-cutout.tom{left:1.5%;bottom:2%;width:clamp(105px,14vw,190px)}
+.edge-cutout.jerry{right:1%;top:8%;width:clamp(100px,13vw,175px)}
+.edge-cutout.lemon{right:3%;bottom:2%;width:clamp(100px,14vw,180px)}
+.opening-scroll{
+  position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
+  font:800 9px/1 var(--body);letter-spacing:2px;color:rgba(255,255,255,.55);
+}
+
+/* screens */
+.screen{
+  min-height:100svh;display:none;place-items:center;padding:35px 20px;
+}
+.screen.active{display:grid}
+.decision{position:relative;background:#f3e4c7;overflow:hidden}
+.decision-stage{width:min(1180px,100%);display:grid;grid-template-columns:minmax(110px,1fr) minmax(0,780px) minmax(110px,1fr);align-items:center;gap:clamp(18px,4vw,56px)}
+.decision-sticker{width:clamp(105px,12vw,165px);justify-self:center;pointer-events:none;filter:drop-shadow(0 16px 15px rgba(0,0,0,.18));transform-origin:center bottom}
+.decision-sticker img{display:block;width:100%;height:auto;object-fit:contain}
+.decision-sticker.tom{transform:rotate(-7deg)}
+.decision-sticker.jerry{transform:rotate(7deg)}
+.decision-sticker-note{margin-top:12px;font:800 9px/1.2 var(--body);letter-spacing:1.5px;text-align:center;color:#6f6659}
+.decision-card{position:relative;
+  width:min(780px,100%);padding:clamp(30px,6vw,65px);
+  background:var(--paper);border:2px solid var(--ink);
+  box-shadow:14px 14px 0 var(--yellow),var(--shadow);
+  text-align:center;
+}
+.decision-card h2{
+  font:400 clamp(50px,8vw,92px)/.84 var(--display);
+}
+.decision-card h2 span{display:block;color:var(--red)}
+.decision-card p{
+  max-width:590px;margin:22px auto;color:#666;
+  font:600 16px/1.65 var(--round);
+}
+.decision-buttons{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.decision-buttons button{
+  min-width:180px;padding:15px 20px;
+  font:800 11px/1 var(--body);letter-spacing:1px;text-transform:uppercase;
+  background:#111;color:#fff;
+}
+.decision-buttons button:first-child{background:var(--yellow);color:#111}
+
+/* password */
+.password{background:#101411;color:#e9f4e4}
+.terminal{
+  width:min(700px,100%);border:1px solid rgba(194,255,170,.23);
+  background:#0b0f0c;box-shadow:0 30px 90px rgba(0,0,0,.55);
+}
+.terminal-bar{
+  height:44px;display:flex;align-items:center;gap:7px;padding:0 14px;
+  border-bottom:1px solid rgba(194,255,170,.14);
+}
+.terminal-bar i{width:8px;height:8px;border-radius:50%;background:#70806d}
+.terminal-bar span{margin-left:auto;font:700 9px/1 monospace;color:#70806d;letter-spacing:1px}
+.terminal-body{padding:clamp(26px,5vw,48px)}
+.terminal-body h2{font:800 clamp(28px,5vw,50px)/1.05 var(--round);margin:12px 0}
+.terminal-body p{color:#91a88c;font:14px/1.7 monospace}
+.access-form{display:flex;margin-top:25px;border:1px solid rgba(194,255,170,.27)}
+.access-form span{padding:15px 0 15px 14px;color:#9bb198;font:14px/1 monospace}
+.access-form input{
+  min-width:0;flex:1;border:0;outline:0;background:transparent;color:#e9f4e4;
+  padding:15px 10px;font:14px monospace;
+}
+.access-form button{
+  padding:0 20px;background:#dff4d7;color:#101411;
+  font:800 10px/1 monospace;letter-spacing:1px;
+}
+#error{min-height:18px;margin-top:12px;color:#ff7777;font:10px/1 monospace}
+
+/* main */
+#main{display:none}
+#main.show{display:block}
+.marquee{
+  overflow:hidden;background:#111;color:#fff;border-top:4px solid var(--yellow);
+  border-bottom:4px solid var(--red);padding:14px 0;
+}
+.marquee-track{
+  width:max-content;display:flex;gap:24px;
+  font:800 11px/1 var(--body);letter-spacing:2px;
+  animation:marquee 22s linear infinite;
+}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* hero */
+.hero{
+  background:#f5d99a;padding:clamp(70px,10vw,125px) 0;
+}
+.hero-grid{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,520px);
+  align-items:center;gap:clamp(30px,6vw,80px);
+}
+.hero-copy .eyebrow{
+  font:800 11px/1 var(--body);letter-spacing:2px;color:#6c5c40;
+}
+.hero-copy h2{margin:18px 0;font:400 clamp(68px,10vw,135px)/.76 var(--display)}
+.hero-copy h2 span{display:block;color:var(--red)}
+.hero-bro{
+  display:inline-block;margin-bottom:18px;
+  font:400 clamp(28px,4vw,46px)/1 var(--display);
+}
+.hero-description{max-width:540px;font:600 18px/1.6 var(--round);color:#5e564a}
+.hero-photo{
+  position:relative;width:fit-content;max-width:100%;margin:auto;
+  background:#fff;padding:10px 10px 16px;
+  box-shadow:var(--shadow);transform:rotate(1.4deg);
+}
+.hero-photo img{width:auto;height:auto;max-width:100%;max-height:650px;object-fit:contain}
+.photo-label,.photo-caption{
+  font:800 9px/1 var(--body);letter-spacing:1.5px;text-transform:uppercase;color:#777;
+}
+.photo-label{padding:8px 3px}
+.photo-caption{text-align:center;padding-top:12px}
+.hero-side-cutout{
+  position:absolute;z-index:2;left:-80px;bottom:-40px;width:145px;
+  filter:drop-shadow(0 12px 14px rgba(0,0,0,.2));pointer-events:none;
+}
+
+/* intro */
+.intro{background:var(--paper)}
+.intro-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:70px;align-items:start}
+.intro-copy h2{
+  font:400 clamp(58px,8vw,100px)/.8 var(--display);
+}
+.intro-copy h2 span{display:block;color:var(--red)}
+.intro-text{
+  padding-top:12px;color:#625e58;font:600 18px/1.8 var(--round);
+}
+.intro-note{
+  margin-top:26px;padding:18px;background:#f3e4c7;border-left:5px solid var(--blue);
+  font:700 14px/1.6 var(--round);
+}
+
+/* memories */
+.memories{background:#eaf3f5}
+.memory-grid{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(250px,.85fr);
+  gap:24px;align-items:start;
+}
+.memory-card{
+  position:relative;width:fit-content;max-width:100%;background:#fff;
+  padding:9px 9px 15px;box-shadow:var(--shadow);
+  transition:transform .35s ease,box-shadow .35s ease;
+}
+.memory-card:hover{transform:translateY(-7px) rotate(-.5deg);box-shadow:0 28px 65px rgba(23,23,23,.17)}
+.memory-card img{
+  width:auto;height:auto;max-width:100%;max-height:620px;
+  object-fit:contain;
+}
+.memory-side{display:grid;gap:24px}
+.memory-side .memory-card{width:100%}
+.memory-side .memory-card img{width:100%;height:auto;max-height:none;object-fit:contain}
+.memory-label{
+  padding-top:12px;font:800 9px/1 var(--body);letter-spacing:1.4px;color:#666;
+}
+.memory-number{
+  position:absolute;right:12px;top:12px;
+  padding:7px 8px;background:var(--yellow);font:800 9px/1 var(--body);
+}
+
+/* polls */
+.polls{background:#171717;color:#fff}
+.poll-intro{color:#bdb7ae}
+.poll-stack{display:grid;gap:18px}
+.poll-card{
+  display:grid;grid-template-columns:60px minmax(0,1fr) minmax(260px,430px);
+  gap:20px;align-items:center;padding:24px;
+  border:1px solid rgba(255,255,255,.13);background:#202020;
+}
+.poll-number{
+  width:46px;height:46px;display:grid;place-items:center;
+  background:var(--yellow);color:#111;border-radius:50%;
+  font:800 12px/1 var(--body);
+}
+.poll-question h3{font:800 clamp(20px,3vw,28px)/1.1 var(--round)}
+.poll-question p{margin-top:7px;color:#aaa;font:500 13px/1.5 var(--round)}
+.poll-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.poll-option{
+  min-height:56px;padding:10px;border:1px solid rgba(255,255,255,.16);
+  background:#292929;color:#fff;text-align:left;
+  font:700 12px/1.25 var(--round);transition:.2s;
+}
+.poll-option:hover{border-color:var(--yellow);transform:translateY(-2px)}
+.poll-option.selected{background:var(--yellow);color:#111;border-color:var(--yellow)}
+.poll-answer{
+  grid-column:2/-1;display:none;padding:11px 14px;background:#151515;
+  color:#d8d2ca;font:600 12px/1.5 var(--round);border-left:4px solid var(--red);
+}
+.poll-card.answered .poll-answer{display:block}
+
+/* serious minute */
+.serious{background:#f0e9dc}
+.serious-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:36px;align-items:start}
+.reveal-list{display:grid;gap:14px}
+.reveal-item{
+  position:relative;display:grid;grid-template-columns:52px 1fr auto;
+  gap:18px;align-items:center;padding:22px 24px;background:#fff;
+  border:1px solid var(--line);box-shadow:0 12px 28px rgba(23,23,23,.06);
+}
+.reveal-number{font:400 40px/1 var(--display);color:var(--red)}
+.reveal-main small{font:800 9px/1 var(--body);letter-spacing:1.5px;color:#8a847c}
+.reveal-main h3{margin-top:6px;font:800 20px/1.15 var(--round)}
+.reveal-button{
+  padding:11px 14px;background:#111;color:#fff;
+  font:800 9px/1 var(--body);letter-spacing:1px;
+}
+.reveal-hidden{
+  grid-column:2/-1;display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .45s ease,opacity .45s ease;opacity:0;
+  color:#666;font:600 14px/1.6 var(--round);
+}
+.reveal-hidden > div{overflow:hidden}
+.reveal-item.open .reveal-hidden{grid-template-rows:1fr;opacity:1}
+.serious-art{
+  background:#fff;padding:9px 9px 15px;box-shadow:var(--shadow);
+  transform:rotate(2deg);
+}
+.serious-art img{width:100%;height:auto}
+.serious-art figcaption{padding-top:12px;text-align:center;color:#777;font:800 9px/1 var(--body);letter-spacing:1px}
+
+/* scratch */
+.scratch{background:#fff4d4}
+.scratch-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;
+}
+.scratch-card{
+  position:relative;width:100%;background:#fff;padding:10px 10px 17px;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.scratch-card:nth-child(1){transform:rotate(-1.1deg)}
+.scratch-card:nth-child(2){transform:rotate(1deg)}
+.scratch-card:nth-child(3){transform:rotate(.7deg)}
+.scratch-card:nth-child(4){transform:rotate(-.8deg)}
+.scratch-card:hover{transform:translateY(-6px) rotate(0deg)}
+.scratch-image-wrap{position:relative;width:100%;overflow:hidden;background:#eee}
+.scratch-image-wrap img{width:100%;height:auto;object-fit:contain}
+.scratch-image-wrap canvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  cursor:crosshair;touch-action:none;
+}
+.scratch-card .scratch-label{
+  display:flex;justify-content:space-between;gap:10px;padding:12px 3px 0;
+}
+.scratch-label strong{font:800 10px/1 var(--body);letter-spacing:1.4px}
+.scratch-label span{color:#888;font:700 9px/1 var(--body);letter-spacing:1px}
+.scratch-progress{
+  height:4px;margin:9px 3px 0;background:#eee;overflow:hidden;
+}
+.scratch-progress span{display:block;width:0;height:100%;background:var(--red);transition:width .2s}
+.scratch-hint{
+  margin-top:8px;text-align:center;color:#999;
+  font:700 8px/1 var(--body);letter-spacing:1px;
+}
+.scratch-card.unlocked .scratch-hint{color:var(--green)}
+.scratch-card.unlocked .scratch-progress span{background:var(--green)}
+
+/* bro code */
+.bro-code{background:#e8eef2}
+.bro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.bro-card{height:260px;perspective:1000px;cursor:pointer}
+.bro-inner{height:100%;position:relative;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.bro-card.flipped .bro-inner{transform:rotateY(180deg)}
+.bro-face{
+  position:absolute;inset:0;padding:22px;backface-visibility:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;
+  border:2px solid #111;background:#fff;box-shadow:8px 8px 0 #111;
+}
+.bro-front small,.bro-back small{font:800 9px/1 var(--body);letter-spacing:2px}
+.bro-front strong{
+  font:400 clamp(42px,4vw,62px)/.8 var(--display);color:var(--red)
+}
+.bro-front span{font:800 8px/1 var(--body);letter-spacing:1px;color:#888}
+.bro-back{transform:rotateY(180deg);background:var(--yellow)}
+.bro-back p{font:800 21px/1.35 var(--round)}
+
+/* one last / certificate */
+.certificate-section{background:#f4e9d6}
+.certificate{
+  width:min(900px,100%);margin:auto;position:relative;
+  padding:clamp(28px,6vw,68px);
+  background:#fffdf7;border:5px solid #b78b42;
+  box-shadow:inset 0 0 0 10px #fffdf7,inset 0 0 0 12px #e5c98e,var(--shadow);
+  text-align:center;
+}
+.certificate::before,.certificate::after{
+  content:"";position:absolute;inset:18px;border:1px dashed rgba(183,139,66,.7);pointer-events:none;
+}
+.cert-top{font:800 10px/1 var(--body);letter-spacing:2px;color:#8b7045}
+.certificate h2{
+  margin:28px 0 10px;font:400 clamp(58px,9vw,105px)/.8 var(--display);
+}
+.certificate h2 span{display:block;color:var(--red)}
+.cert-copy{
+  max-width:670px;margin:18px auto;
+  font:600 17px/1.65 var(--round);color:#5f584e;
+}
+.cert-checks{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;
+  max-width:670px;margin:28px auto;text-align:left;
+}
+.cert-check{padding:13px 15px;background:#f5ead4;border-left:4px solid var(--blue);font:800 14px/1.3 var(--round)}
+.cert-sign{font:400 25px/1.2 "Permanent Marker",cursive;color:#51473b}
+.cert-stamp{
+  width:104px;height:104px;margin:24px auto 0;border:2px dashed var(--red);
+  border-radius:50%;display:grid;place-items:center;color:var(--red);
+  font:800 8px/1.25 var(--body);letter-spacing:1px;transform:rotate(-8deg)
+}
+
+/* final */
+.final{background:#111;color:#fff;text-align:center;padding:120px 20px}
+.final-small{font:800 10px/1 var(--body);letter-spacing:2px;color:#9d978e}
+.final h2{margin:25px auto;font:400 clamp(68px,11vw,150px)/.75 var(--display);max-width:1050px}
+.final h2 span{display:block;color:var(--yellow)}
+.final p{max-width:620px;margin:auto;color:#bdb7ae;font:600 17px/1.75 var(--round)}
+.final .primary-btn{box-shadow:7px 7px 0 var(--red)}
+
+/* GSAP starting states */
+.gsap-reveal{visibility:hidden}
+.loaded .gsap-reveal{visibility:visible}
+
+/* mobile */
+@media(max-width:900px){
+  .hero-grid,.intro-grid,.memory-grid,.serious-layout{grid-template-columns:1fr}
+  .hero-copy{text-align:center}
+  .hero-description{margin:auto}
+  .hero-photo{margin:20px auto 0}
+  .hero-side-cutout{left:auto;right:-45px;bottom:-30px}
+  .memory-side{grid-template-columns:1fr 1fr}
+  .serious-art{width:min(280px,100%);margin:auto}
+  .bro-grid{grid-template-columns:repeat(2,1fr)}
+  .poll-card{grid-template-columns:52px 1fr}
+  .poll-options{grid-column:2;grid-template-columns:repeat(3,1fr)}
+  .poll-answer{grid-column:2}
+}
+@media(max-width:900px){
+  .decision-stage{grid-template-columns:96px minmax(0,1fr) 96px;gap:12px}
+  .decision-sticker{width:88px}
+  .decision-sticker-note{font-size:8px}
+}
+@media(max-width:640px){
+  .decision-stage{grid-template-columns:1fr;gap:10px;justify-items:center}
+  .decision-card{order:2}
+  .decision-sticker{width:76px}
+  .decision-sticker.tom{order:1}
+  .decision-sticker.jerry{order:3}
+  .decision-sticker-note{display:none}
+}
+@media(max-width:640px){
+  .container{width:min(100% - 28px,1160px)}
+  .opening-top{top:15px;left:15px;right:15px;font-size:8px}
+  .opening h1{font-size:clamp(72px,22vw,115px)}
+  .opening-copy{font-size:15px}
+  .edge-cutout.tom{left:-16px;bottom:4%;width:105px}
+  .edge-cutout.jerry{right:-12px;top:10%;width:100px}
+  .edge-cutout.lemon{right:-18px;bottom:4%;width:105px}
+  .section{padding:75px 0}
+  .section-head{margin-bottom:32px}
+  .section-head h2{font-size:clamp(58px,18vw,90px)}
+  .memory-side{grid-template-columns:1fr}
+  .poll-card{grid-template-columns:42px 1fr;padding:18px}
+  .poll-number{width:40px;height:40px}
+  .poll-options{grid-column:1/-1;grid-template-columns:1fr}
+  .poll-answer{grid-column:1/-1}
+  .reveal-item{grid-template-columns:42px 1fr;gap:12px;padding:18px}
+  .reveal-button{grid-column:2;justify-self:start}
+  .reveal-hidden{grid-column:1/-1}
+  .scratch-grid{grid-template-columns:1fr}
+  .bro-grid{grid-template-columns:1fr}
+  .bro-card{height:230px}
+  .cert-checks{grid-template-columns:1fr}
+  .certificate{padding:34px 18px}
+  .cert-stamp{width:84px;height:84px}
+  .access-form{flex-wrap:wrap}
+  .access-form button{width:100%;min-height:48px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+
+<body>
+<div id="progress"></div>
+<div class="page-noise"></div>
+<div id="confetti"></div>
+
+<!-- OPENING -->
+<section class="opening" id="opening">
+  <div class="opening-bg"></div>
+
+  <div class="opening-top">
+    <span>PRIVATE BIRTHDAY TRANSMISSION</span>
+    <span>18.09.26</span>
+  </div>
+
+  <!-- Cutouts live in empty edge areas only; no text/image is covered. -->
+  <!-- <div class="edge-cutout tom"><img src="tom_peek.png" alt="Tom cutout"></div> -->
+  <!-- <div class="edge-cutout jerry"><img src="jerry_hanging.png" alt="Jerry cutout"></div> -->
+  <!-- <div class="edge-cutout lemon"><img src="jerry_lemonade.png" alt="Jerry with lemonade cutout"></div> -->
+
+  <div class="opening-content">
+    <div class="birthday-pill">BIRTHDAY MODE ACTIVATED</div>
+    <h1>HAPPY <span>BIRTHDAY</span> BRO!</h1>
+    <p class="opening-copy">
+      One more year of friendship, unlimited roasting,
+      stupid arguments and completely unnecessary chaos.
+    </p>
+    <button class="primary-btn" id="openButton">OPEN YOUR BIRTHDAY <b>↗</b></button>
+  </div>
+
+  <!-- <div class="opening-scroll">SCROLL AFTER THE TRANSMISSION OPENS</div> -->
+</section>
+
+<!-- DECISION -->
+<section class="screen decision" id="decision">
+  <div class="decision-stage">
+    <div class="decision-sticker tom" aria-hidden="true">
+      <img src="tom_peek.png" alt="tom cutout">
+      <div class="decision-sticker-note">HE'S WATCHING</div>
+    </div>
+    <div class="decision-card">
+      <div class="kicker" style="justify-content:center">THE CHASE CONTINUES</div>
+      <h2>READY FOR <span>YOUR CHAOTIC BIRTHDAY?</span></h2>
+      <p>
+        Warning: this website contains Tom & Jerry, questionable memories,
+        unnecessary roasting and one birthday message that you cannot escape.
+      </p>
+      <div class="decision-buttons">
+        <button id="yesButton">YES — LET'S GO</button>
+        <button id="noButton">NO</button>
+      </div>
+    </div>
+    <div class="decision-sticker jerry" aria-hidden="true">
+      <img src="jerry_laughing.png" alt="">
+      <div class="decision-sticker-note">GOOD LUCK</div>
+    </div>
+  </div>
+</section>
+
+<!-- PASSWORD -->
+<section class="screen password" id="password">
+  <div class="terminal">
+    <div class="terminal-bar">
+      <i></i><i></i><i></i>
+      <span>BIRTHDAY_ACCESS.exe</span>
+    </div>
+    <div class="terminal-body">
+      <p>ACCESSING PRIVATE BIRTHDAY FILE...</p>
+      <h2>ENTER THE BRO CODE</h2>
+      <p>password: tom / jerry / tomandjerry / bestbuddies</p>
+      <div class="access-form">
+        <span>&gt;_</span>
+        <input id="passwordInput" type="password" autocomplete="off" placeholder="enter code">
+        <button id="unlockButton">UNLOCK</button>
+      </div>
+      <div id="error"></div>
+    </div>
+  </div>
+</section>
+
+<main id="main">
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>HAPPY BIRTHDAY BRO</span><span>✦</span><span>TOM RUNS</span><span>✦</span>
+      <span>JERRY RUNS</span><span>✦</span><span>WE BOTH LOSE</span><span>✦</span>
+      <span>MORE CHAOS</span><span>✦</span><span>STILL BEST BUDDIES</span><span>✦</span>
+      <span>HAPPY BIRTHDAY BRO</span><span>✦</span><span>TOM RUNS</span><span>✦</span>
+      <span>JERRY RUNS</span><span>✦</span><span>WE BOTH LOSE</span><span>✦</span>
+      <span>MORE CHAOS</span><span>✦</span><span>STILL BEST BUDDIES</span><span>✦</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="section hero">
+    <div class="container hero-grid">
+      <div class="hero-copy gsap-reveal">
+        <div class="eyebrow">TOM × JERRY × BROTHERHOOD</div>
+        <h2>HAPPY <span>BIRTHDAY</span></h2>
+        <div class="hero-bro">MY BEST BRO.</div>
+        <p class="hero-description">
+          Another year older. Still annoying. Still impossible to replace.
+          And somehow we're still here.
+        </p>
+        <button class="primary-btn" id="heroCelebrate">CELEBRATE THIS IDIOT</button>
+      </div>
+
+      <figure class="hero-photo gsap-reveal">
+        <div class="photo-label">BIRTHDAY EVIDENCE</div>
+        <img src="best buddies.jpeg" alt="Tom and Jerry best buddies">
+        <figcaption class="photo-caption">chaos verified</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section intro">
+    <div class="container intro-grid">
+      <div class="intro-copy gsap-reveal">
+        <div class="kicker">BIRTHDAY REPORT — 01</div>
+        <h2>FRIENDSHIP <span>was never</span> supposed to be this chaotic.</h2>
+      </div>
+      <div class="intro-text gsap-reveal">
+        <p>
+          Somehow simple conversations became arguments, arguments became jokes,
+          jokes became memories, and those memories became the reason we're still
+          laughing at the same stupid things.
+        </p>
+        <div class="intro-note">
+          The official summary: too much chaos, surprisingly good memories,
+          and absolutely no plans to stop.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMORIES -->
+  <section class="section memories">
+    <div class="container">
+      <div class="section-head gsap-reveal">
+        <div class="kicker">BIRTHDAY REPORT — 02</div>
+        <h2>OUR <span>CHAOS.</span></h2>
+        <p>Real pictures, clean frames, zero unnecessary overlays.</p>
+      </div>
+
+      <div class="memory-grid">
+        <article class="memory-card gsap-reveal">
+          <img src="backround.jpeg" alt="Tom and Jerry outdoor scene">
+          <div class="memory-label">THE CHASE NEVER ENDS</div>
+          <div class="memory-number">01</div>
+        </article>
+
+        <div class="memory-side">
+          <article class="memory-card gsap-reveal">
+            <img src="pic(2).jpeg" alt="Tom and Jerry friendship memory">
+            <div class="memory-label">GOOD TIMES</div>
+            <div class="memory-number">02</div>
+          </article>
+
+          <article class="memory-card gsap-reveal">
+            <img src="pic 2.jpeg" alt="Tom and Jerry friendship memory">
+            <div class="memory-label">ZERO BRAIN CELLS</div>
+            <div class="memory-number">03</div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 MCQ POLLS -->
+  <section class="section polls">
+    <div class="container">
+      <div class="section-head gsap-reveal">
+        <div class="kicker" style="color:#aaa">BIRTHDAY REPORT — 03</div>
+        <h2>THE <span>CHAOS QUIZ.</span></h2>
+        <p class="poll-intro">Five tiny polls. Your answers will be judged by absolutely nobody.</p>
+      </div>
+
+      <div class="poll-stack">
+
+        <article class="poll-card gsap-reveal" data-correct="jerry">
+          <div class="poll-number">01</div>
+          <div class="poll-question">
+            <h3>Who starts the trouble first?</h3>
+            <p>Pick the most suspicious candidate.</p>
+          </div>
+          <div class="poll-options">
+            <button class="poll-option" data-value="tom">Tom</button>
+            <button class="poll-option" data-value="jerry">Jerry</button>
+            <button class="poll-option" data-value="both">Both</button>
+          </div>
+          <div class="poll-answer"></div>
+        </article>
+
+        <article class="poll-card gsap-reveal" data-correct="both">
+          <div class="poll-number">02</div>
+          <div class="poll-question">
+            <h3>Who makes a simple plan complicated?</h3>
+            <p>There is one answer that feels painfully obvious.</p>
+          </div>
+          <div class="poll-options">
+            <button class="poll-option" data-value="tom">Tom</button>
+            <button class="poll-option" data-value="jerry">Jerry</button>
+            <button class="poll-option" data-value="both">Both</button>
+          </div>
+          <div class="poll-answer"></div>
+        </article>
+
+        <article class="poll-card gsap-reveal" data-correct="jerry">
+          <div class="poll-number">03</div>
+          <div class="poll-question">
+            <h3>Who would steal the last piece of cheese?</h3>
+            <p>Important birthday research.</p>
+          </div>
+          <div class="poll-options">
+            <button class="poll-option" data-value="tom">Tom</button>
+            <button class="poll-option" data-value="jerry">Jerry</button>
+            <button class="poll-option" data-value="both">Both</button>
+          </div>
+          <div class="poll-answer"></div>
+        </article>
+
+        <article class="poll-card gsap-reveal" data-correct="tom">
+          <div class="poll-number">04</div>
+          <div class="poll-question">
+            <h3>Who pretends they had a perfect plan?</h3>
+            <p>Confidence level: questionable.</p>
+          </div>
+          <div class="poll-options">
+            <button class="poll-option" data-value="tom">Tom</button>
+            <button class="poll-option" data-value="jerry">Jerry</button>
+            <button class="poll-option" data-value="both">Both</button>
+          </div>
+          <div class="poll-answer"></div>
+        </article>
+
+        <article class="poll-card gsap-reveal" data-correct="both">
+          <div class="poll-number">05</div>
+          <div class="poll-question">
+            <h3>Who actually wins the friendship?</h3>
+            <p>Final question. No cheating.</p>
+          </div>
+          <div class="poll-options">
+            <button class="poll-option" data-value="tom">Tom</button>
+            <button class="poll-option" data-value="jerry">Jerry</button>
+            <button class="poll-option" data-value="both">Both</button>
+          </div>
+          <div class="poll-answer"></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SERIOUS MINUTE -->
+  <section class="section serious">
+    <div class="container">
+      <div class="section-head gsap-reveal">
+        <div class="kicker">BIRTHDAY REPORT — 04</div>
+        <h2>OKAY BRO... <span>ONE SERIOUS MINUTE.</span></h2>
+        <p>Same words, but with a calmer reveal so this part actually feels special.</p>
+      </div>
+
+      <div class="serious-layout">
+        <div class="reveal-list">
+          <article class="reveal-item gsap-reveal">
+            <div class="reveal-number">01</div>
+            <div class="reveal-main">
+              <small>CONFESSION</small>
+              <h3>I genuinely enjoy annoying you.</h3>
+            </div>
+            <button class="reveal-button">OPEN</button>
+            <div class="reveal-hidden"><div>It's basically a hobby at this point.</div></div>
+          </article>
+
+          <article class="reveal-item gsap-reveal">
+            <div class="reveal-number">02</div>
+            <div class="reveal-main">
+              <small>REAL TALK</small>
+              <h3>But yeah... I've got your back.</h3>
+            </div>
+            <button class="reveal-button">OPEN</button>
+            <div class="reveal-hidden"><div>No giant emotional speech required. Just know I'm there when you need me.</div></div>
+          </article>
+
+          <article class="reveal-item gsap-reveal">
+            <div class="reveal-number">03</div>
+            <div class="reveal-main">
+              <small>IMPORTANT</small>
+              <h3>This friendship is unfortunately permanent.</h3>
+            </div>
+            <button class="reveal-button">OPEN</button>
+            <div class="reveal-hidden"><div>No refunds. No cancellation. Terms and conditions are terrible.</div></div>
+          </article>
+        </div>
+
+        <figure class="serious-art gsap-reveal">
+          <img src="jerry_laughing.png" alt="Laughing Jerry cutout">
+          <figcaption>OKAY. SERIOUS MODE.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 POLAROIDS / SCRATCH -->
+  <section class="section scratch">
+    <div class="container">
+      <div class="section-head gsap-reveal">
+        <div class="kicker">BIRTHDAY REPORT — 05</div>
+        <h2>HIDDEN <span>MEMORIES.</span></h2>
+        <!-- <p>Scratch each photo. The image is underneath; the silver layer is the only thing you remove.</p> -->
+      </div>
+
+      <div class="scratch-grid">
+
+        <article class="scratch-card gsap-reveal">
+          <div class="scratch-image-wrap">
+            <img src="deakh dekh kya h.jpeg" alt="Hidden birthday memory one">
+            <canvas aria-label="Scratch to reveal memory"></canvas>
+          </div>
+           <div class="scratch-label"><strong>MEMORY 01</strong>
+             <span>When we got the GOSSIP</span></div> 
+          <div class="scratch-progress"><span></span></div>
+          <!-- <div class="scratch-hint">SCRATCH 65% TO UNLOCK</div> -->
+        </article>
+
+        <article class="scratch-card gsap-reveal">
+          <div class="scratch-image-wrap">
+            <img src="pic 2.jpeg" alt="Hidden birthday memory two">
+            <canvas aria-label="Scratch to reveal memory"></canvas>
+          </div>
+          <div class="scratch-label"><strong>MEMORY 02</strong>
+             <span>No matter how the days gone we will be chaotic 
+            </br>today, tomorrow and forever.
+            </span> 
+          </div>
+          <div class="scratch-progress"><span></span></div>
+          <!-- <div class="scratch-hint">SCRATCH 65% TO UNLOCK</div> -->
+        </article>
+
+        <article class="scratch-card gsap-reveal">
+          <div class="scratch-image-wrap">
+            <img src="jerry_lemonade.png" alt="Hidden birthday memory three">
+            <canvas aria-label="Scratch to reveal memory"></canvas>
+          </div>
+          <div class="scratch-label"><strong>MEMORY 03</strong><span>Me watching you to behave well</span></div>
+          <div class="scratch-progress"><span></span></div>
+          <!-- <div class="scratch-hint">SCRATCH 65% TO UNLOCK</div> -->
+        </article>
+
+        <article class="scratch-card gsap-reveal">
+          <div class="scratch-image-wrap">
+            <img src="backround.jpeg" alt="Hidden birthday memory four">
+            <canvas aria-label="Scratch to reveal memory"></canvas>
+          </div>
+          <div class="scratch-label"><strong>MEMORY 04</strong><span>Alwayss USSS</span></div>
+          <div class="scratch-progress"><span></span></div>
+          <!-- <div class="scratch-hint">SCRATCH 65% TO UNLOCK</div> -->
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BRO CODE -->
+  <section class="section bro-code">
+    <div class="container">
+      <div class="section-head gsap-reveal">
+        <div class="kicker">BIRTHDAY REPORT — 06</div>
+        <h2>THE <span>BRO CODE.</span></h2>
+        <p>Tap any card. Flip it. Read the <strong> TERMS AND CONDITIONS </strong>.</p>
+      </div>
+
+      <div class="bro-grid">
+        <article class="bro-card gsap-reveal">
+          <div class="bro-inner">
+            <div class="bro-face bro-front"><small>RULE 01</small><strong>ROAST</strong><span>CLICK TO FLIP</span></div>
+            <div class="bro-face bro-back"><small>BRO CODE</small><p>I can roast you. Other people cannot. That's the contract.</p></div>
+          </div>
+        </article>
+        <article class="bro-card gsap-reveal">
+          <div class="bro-inner">
+            <div class="bro-face bro-front"><small>RULE 02</small><strong>BACKUP</strong><span>CLICK TO FLIP</span></div>
+            <div class="bro-face bro-back"><small>BRO CODE</small><p>When life gets weird, call your bro before doing something stupid.</p></div>
+          </div>
+        </article>
+        <article class="bro-card gsap-reveal">
+          <div class="bro-inner">
+            <div class="bro-face bro-front"><small>RULE 03</small><strong>SILENCE</strong><span>CLICK TO FLIP</span></div>
+            <div class="bro-face bro-back"><small>BRO CODE</small><p>We don't have to talk every day for the friendship to exist.</p></div>
+          </div>
+        </article>
+        <article class="bro-card gsap-reveal">
+          <div class="bro-inner">
+            <div class="bro-face bro-front"><small>RULE 04</small><strong>BIRTHDAY</strong><span>CLICK TO FLIP</span></div>
+            <div class="bro-face bro-back"><small>FINAL RULE</small><p>On your birthday, you are legally required to enjoy the chaos.</p></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONE LAST / Agreement CERTIFICATE -->
+   
+
+  <section class="section certificate-section">
+    <div class="container">
+      <div class="section-head gsap-reveal">
+        <div class="kicker">ONE LAST PIECE OF EVIDENCE</div>
+        <h2>ONE LAST <span>AGREEMENT.</span></h2>
+      </div>
+ <div class="edge-cutout tom"><img src="tom_peek.png" alt="Tom cutout"></div> 
+   <div class="edge-cutout jerry"><img src="jerry_lemonade.png" alt="Jerry cutout"></div> 
+      <article class="certificate gsap-reveal">
+        <div class="cert-top">FRIENDSHIP AGREEMENT CERTIFICATE</div>
+        <h2>HAPPY <span>BIRTHDAY BRO!</span></h2>
+
+        <p class="cert-copy">
+          Certified member of the chaos department.
+          No refunds. No cancellation. Still my bro.
+        </p>
+
+        <div class="cert-checks">
+          <div class="cert-check">Professional Roaster</div>
+          <div class="cert-check">Emergency Backup Bro</div>
+          <div class="cert-check">Keeper of Stupid Memories</div>
+          <div class="cert-check">Permanently Annoying</div>
+        </div>
+
+        <div class="cert-sign">— Signed by your fellow chaos agent</div>
+        <div class="cert-stamp">BRO<br>CODE<br>APPROVED</div>
+       <SPAN> <strong>CONGRATULATIONS</strong>
+       </BR>NOW YOU ARE STUKKED WITH ME FOREVER</SPAN>
+      </article>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final">
+    <div class="final-small">FINAL BIRTHDAY MESSAGE</div>
+    <h2>ONE MORE YEAR. <span>ONE MORE CHAOS.</span></h2>
+    <p>
+      Happy Birthday, bro.
+      <br><br>
+      Here's to more stupid jokes, more random memories,
+      more arguments, and somehow even more chaos.
+      <br><br>
+      Stay exactly as annoying as you are.
+    </p>
+    <button class="primary-btn" id="celebrateButton">CELEBRATE AGAIN</button>
+  </section>
+
+</main>
+
+<script>
+(() => {
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+
+  const opening = $("#opening");
+  const decision = $("#decision");
+  const password = $("#password");
+  const main = $("#main");
+  const openButton = $("#openButton");
+  const yesButton = $("#yesButton");
+  const noButton = $("#noButton");
+  const passwordInput = $("#passwordInput");
+  const unlockButton = $("#unlockButton");
+  const error = $("#error");
+
+  /* No bubble cursor / no custom cursor: native browser cursor stays untouched. */
+
+  /* ---------------- Opening flow ---------------- */
+  openButton.addEventListener("click", () => {
+    if (window.gsap) {
+      gsap.to(opening, {
+        autoAlpha: 0, scale: 1.025, duration: .65, ease: "power2.inOut",
+        onComplete: () => {
+          opening.style.display = "none";
+          decision.classList.add("active");
+          gsap.fromTo(".decision-card",
+            {y:35, opacity:0, scale:.98},
+            {y:0, opacity:1, scale:1, duration:.75, ease:"back.out(1.4)"}
+          );
+          gsap.fromTo(".decision-sticker.tom",
+            {x:-28, y:20, opacity:0, rotate:-14},
+            {x:0, y:0, opacity:1, rotate:-7, duration:.8, delay:.12, ease:"back.out(1.5)"}
+          );
+          gsap.fromTo(".decision-sticker.jerry",
+            {x:28, y:20, opacity:0, rotate:14},
+            {x:0, y:0, opacity:1, rotate:7, duration:.8, delay:.2, ease:"back.out(1.5)"}
+          );
+          gsap.to(".decision-sticker.tom", {y:-7, rotate:-4, duration:2.6, ease:"sine.inOut", repeat:-1, yoyo:true, delay:.9});
+          gsap.to(".decision-sticker.jerry", {y:7, rotate:4, duration:2.9, ease:"sine.inOut", repeat:-1, yoyo:true, delay:1.1});
+        }
+      });
+    } else {
+      opening.style.display = "none";
+      decision.classList.add("active");
+    }
+  });
+
+  yesButton.addEventListener("click", () => {
+    decision.classList.remove("active");
+    password.classList.add("active");
+    if (window.gsap) {
+      gsap.fromTo(".terminal",
+        {y:35, opacity:0},
+        {y:0, opacity:1, duration:.6, ease:"power3.out"}
+      );
+    }
+  });
+
+  let noTries = 0;
+  const noTexts = ["NO", "YOU SURE?", "NICE TRY", "OKAY FINE"];
+  function dodgeNo() {
+    noTries++;
+    if (noTries >= 4) {
+      noButton.textContent = "OKAY FINE";
+      noButton.style.position = "static";
+      noButton.style.transform = "none";
+      return;
+    }
+    noButton.textContent = noTexts[Math.min(noTries, noTexts.length-1)];
+    const pad = 18;
+    const x = Math.random() * Math.max(10, window.innerWidth - noButton.offsetWidth - pad*2) + pad;
+    const y = Math.random() * Math.max(10, window.innerHeight - noButton.offsetHeight - pad*2) + pad;
+    noButton.style.position = "fixed";
+    noButton.style.left = x + "px";
+    noButton.style.top = y + "px";
+    noButton.style.zIndex = "10001";
+  }
+  noButton.addEventListener("mouseenter", () => { if (noTries < 4) dodgeNo(); });
+  noButton.addEventListener("touchstart", e => {
+    if (noTries < 4) { e.preventDefault(); dodgeNo(); }
+  }, {passive:false});
+  noButton.addEventListener("click", () => {
+    if (noTries < 4) dodgeNo();
+    else {
+      decision.classList.remove("active");
+      password.classList.add("active");
+    }
+  });
+
+  /* ---------------- Password ---------------- */
+  const passwords = ["tom","jerry","tomandjerry","bestbuddies"];
+  function checkPassword(){
+    const value = passwordInput.value.trim().toLowerCase().replace(/\s+/g,"");
+    if (!value) {
+      error.textContent = "ACCESS DENIED — PASSWORD REQUIRED.";
+      return;
+    }
+    if (passwords.includes(value)) {
+      error.style.color = "#dff4d7";
+      error.textContent = "ACCESS GRANTED";
+      unlockButton.disabled = true;
+      unlockButton.textContent = "OPENING";
+      setTimeout(() => {
+        password.classList.remove("active");
+        main.classList.add("show");
+        document.body.classList.add("loaded");
+        window.scrollTo({top:0, behavior:"instant"});
+        launchConfetti(75);
+        initAnimations();
+      }, 550);
+    } else {
+      error.style.color = "#ff7777";
+      error.textContent = "WRONG CODE — TRY AGAIN.";
+      passwordInput.value = "";
+      if (window.gsap) gsap.fromTo(".access-form",
+        {x:0},{x:-8,duration:.06,repeat:5,yoyo:true,ease:"power1.inOut",clearProps:"x"}
+      );
+    }
+  }
+  unlockButton.addEventListener("click", checkPassword);
+  passwordInput.addEventListener("keydown", e => { if(e.key === "Enter") checkPassword(); });
+
+  /* ---------------- GSAP scroll reveals ---------------- */
+  function initAnimations(){
+    if (!window.gsap || !window.ScrollTrigger) {
+      $$(".gsap-reveal").forEach(el => el.classList.remove("gsap-reveal"));
+      return;
+    }
+  }
+
+  if (window.gsap) {
+    const gsapReady = () => {
+      document.body.classList.add("loaded");
+      gsap.registerPlugin(ScrollTrigger);
+      $$(".gsap-reveal").forEach((el) => {
+        gsap.fromTo(el,
+          {y:45, opacity:0},
+          {
+            y:0, opacity:1, duration:.85, ease:"power3.out",
+            scrollTrigger:{trigger:el,start:"top 86%",once:true}
+          }
+        );
+      });
+
+      gsap.fromTo(".hero-copy",
+        {x:-35,opacity:0},
+        {x:0,opacity:1,duration:1,ease:"power3.out",delay:.15}
+      );
+      gsap.fromTo(".hero-photo",
+        {x:35,opacity:0,rotate:5},
+        {x:0,opacity:1,rotate:1.4,duration:1,ease:"back.out(1.25)",delay:.25}
+      );
+
+      gsap.to(".edge-cutout.tom", {
+        y:-12, rotate:2, duration:2.8, ease:"sine.inOut", repeat:-1, yoyo:true
+      });
+      gsap.to(".edge-cutout.jerry", {
+        y:10, rotate:-2, duration:3.2, ease:"sine.inOut", repeat:-1, yoyo:true
+      });
+      gsap.to(".edge-cutout.lemon", {
+        y:-10, rotate:2, duration:3.6, ease:"sine.inOut", repeat:-1, yoyo:true
+      });
+    };
+
+    if (window.ScrollTrigger) gsapReady();
+    else {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js";
+      script.onload = gsapReady;
+      document.head.appendChild(script);
+    }
+  } else {
+    document.body.classList.add("loaded");
+    $$(".gsap-reveal").forEach(el => el.classList.remove("gsap-reveal"));
+  }
+
+  /* ---------------- Hero celebrate ---------------- */
+  $("#heroCelebrate").addEventListener("click", () => {
+    launchConfetti(45);
+    const hero = $(".hero");
+    if (window.gsap) {
+      gsap.fromTo(hero, {y:0}, {y:-5,duration:.1,repeat:3,yoyo:true,ease:"power1.inOut"});
+    }
+  });
+
+  $("#celebrateButton").addEventListener("click", () => {
+    launchConfetti(95);
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+
+  /* ---------------- Polls / MCQs ---------------- */
+  $$(".poll-card").forEach(card => {
+    $$(".poll-option", card).forEach(btn => {
+      btn.addEventListener("click", () => {
+        $$(".poll-option", card).forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        card.classList.add("answered");
+
+        const correct = card.dataset.correct;
+        const picked = btn.dataset.value;
+        const answer = $(".poll-answer", card);
+
+        if (picked === correct) {
+          answer.textContent = "Correct. Very scientific birthday research.";
+          answer.style.borderLeftColor = "#6fa06b";
+        } else {
+          answer.textContent = "Interesting choice. The official chaos department has recorded it.";
+          answer.style.borderLeftColor = "#e84d50";
+        }
+
+        if (window.gsap) gsap.fromTo(answer,{y:8,opacity:0},{y:0,opacity:1,duration:.35});
+      });
+    });
+  });
+
+  /* ---------------- Serious minute reveals ---------------- */
+  $$(".reveal-item").forEach(item => {
+    const button = $(".reveal-button", item);
+    button.addEventListener("click", () => {
+      const opening = item.classList.toggle("open");
+      button.textContent = opening ? "CLOSE" : "OPEN";
+      if (window.gsap) {
+        gsap.fromTo($(".reveal-hidden",item),
+          {y:opening ? 8 : 0},
+          {y:0,duration:.35,ease:"power2.out"}
+        );
+      }
+    });
+  });
+
+  /* ---------------- Scratch cards ---------------- */
+  function setupScratch(card){
+    const wrap = $(".scratch-image-wrap", card);
+    const img = $("img", wrap);
+    const canvas = $("canvas", wrap);
+    const ctx = canvas.getContext("2d", {willReadFrequently:true});
+    const progress = $(".scratch-progress span", card);
+    const hint = $(".scratch-hint", card);
+    let drawing = false, unlocked = false;
+    let lastPoint = null;
+
+    function resizeCanvas(){
+      const rect = wrap.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.max(1, Math.round(rect.width*dpr));
+      canvas.height = Math.max(1, Math.round(rect.height*dpr));
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+
+      const g = ctx.createLinearGradient(0,0,rect.width,rect.height);
+      g.addColorStop(0,"#3e4347");
+      g.addColorStop(.45,"#191c1f");
+      g.addColorStop(1,"#51575b");
+      ctx.globalCompositeOperation = "source-over";
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,rect.width,rect.height);
+
+      ctx.fillStyle = "rgba(255,255,255,.045)";
+      for(let x=0;x<rect.width;x+=24){
+        for(let y=0;y<rect.height;y+=24) ctx.fillRect(x,y,12,12);
+      }
+
+      ctx.fillStyle = "rgba(255,212,71,.15)";
+      ctx.font = "800 12px DM Sans";
+      ctx.textAlign = "center";
+      ctx.fillText("SCRATCH", rect.width/2, rect.height/2-7);
+      ctx.fillText("TO REVEAL", rect.width/2, rect.height/2+12);
+    }
+
+    function point(e){
+      const r = canvas.getBoundingClientRect();
+      const p = e.touches ? e.touches[0] : e;
+      return {x:p.clientX-r.left, y:p.clientY-r.top};
+    }
+
+    function erase(e){
+      if(!drawing || unlocked) return;
+      e.preventDefault();
+      const p = point(e);
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.lineWidth = 56;
+      ctx.beginPath();
+      if(lastPoint){
+        ctx.moveTo(lastPoint.x,lastPoint.y);
+        ctx.lineTo(p.x,p.y);
+      }else{
+        ctx.moveTo(p.x,p.y);
+        ctx.lineTo(p.x+.1,p.y+.1);
+      }
+      ctx.stroke();
+      lastPoint = p;
+      updateScratchProgress();
+    }
+
+    function updateScratchProgress(){
+      const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+      let clear = 0, total = 0;
+      const step = 14;
+      for(let y=0;y<canvas.height;y+=step){
+        for(let x=0;x<canvas.width;x+=step){
+          total++;
+          if(data[(y*canvas.width+x)*4+3] < 90) clear++;
+        }
+      }
+      const pct = Math.min(100, (clear/total)*100);
+      progress.style.width = pct + "%";
+
+      if(pct >= 65 && !unlocked){
+        unlocked = true;
+        card.classList.add("unlocked");
+        hint.textContent = "MEMORY UNLOCKED";
+        canvas.style.pointerEvents = "none";
+        launchConfetti(22);
+        if(window.gsap) gsap.fromTo(img,{scale:1.02},{scale:1,duration:.55,ease:"back.out(1.7)"});
+      }
+    }
+
+    img.addEventListener("load", resizeCanvas);
+    if(img.complete) resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    canvas.addEventListener("pointerdown", e => {
+      if(unlocked) return;
+      drawing = true; lastPoint = point(e); erase(e);
+      canvas.setPointerCapture?.(e.pointerId);
+    });
+    canvas.addEventListener("pointermove", erase);
+    canvas.addEventListener("pointerup", () => {drawing=false;lastPoint=null});
+    canvas.addEventListener("pointercancel", () => {drawing=false;lastPoint=null});
+    canvas.addEventListener("pointerleave", () => {drawing=false;lastPoint=null});
+  }
+  $$(".scratch-card").forEach(setupScratch);
+
+  /* ---------------- Bro code flips ---------------- */
+  $$(".bro-card").forEach(card => {
+    card.addEventListener("click", () => card.classList.toggle("flipped"));
+  });
+
+  /* ---------------- Scroll progress ---------------- */
+  function updateProgress(){
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - innerHeight;
+    $("#progress").style.width = (max > 0 ? (scrollY/max)*100 : 0) + "%";
+  }
+  addEventListener("scroll", updateProgress, {passive:true});
+  updateProgress();
+
+  /* ---------------- Confetti ---------------- */
+  function launchConfetti(amount=60){
+    const box = $("#confetti");
+    box.innerHTML = "";
+    for(let i=0;i<amount;i++){
+      const piece = document.createElement("span");
+      piece.className = "confetti-piece";
+      piece.style.left = (Math.random()*100) + "%";
+      piece.style.setProperty("--x",(Math.random()*240-120)+"px");
+      piece.style.setProperty("--dur",(2.5+Math.random()*2.8)+"s");
+      piece.style.background = ["#ffd447","#e84d50","#3d8ed0","#6fa06b","#f59b3d"][i%5];
+      piece.style.transform = `rotate(${Math.random()*360}deg)`;
+      box.appendChild(piece);
+      setTimeout(()=>piece.remove(),5600);
+    }
+  }
+})();
+</script>
+</body>
+</html>
